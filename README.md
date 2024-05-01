@@ -10,6 +10,8 @@ This information was stored in `data.csv`
 
 # main.py
 
+You can skip this paragraph, cause the `data.csv` of 25196 entries of information is already in the file list.
+
 Script for constructing `data.csv` based on selenium.
 
 After import packages, you can change: 
@@ -46,6 +48,8 @@ base_url = 'https://blendswap.com/blend/{}/download'
 ```
 
 If your cookie is invalid or your account's daily download limit has been exhausted, this message will be prompted: Download quota used up... or cookie invalid...
+
+Creating an account in Blendswap does not require verification. So ou can easily create accounts. Or you can subscribe it, then you can download without restrictions.
 
 ![image-20240501141520638](README.assets/image-20240501141520638.png)
 

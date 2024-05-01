@@ -50,6 +50,7 @@ def download(id):
                     progress_bar.update(len(chunk))
         # 下载完成
         progress_bar.close()
+        is_download = 'yes'
     return [is_download, str(total_size_MB), path]
 
 
