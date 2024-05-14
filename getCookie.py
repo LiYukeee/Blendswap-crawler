@@ -8,7 +8,9 @@ from datetime import datetime
 
 class CookieMaker:
     def __init__(self, headless, implicitlyWait):
-        self.driver = driverInit(headless=headless, implicitlyWait=implicitlyWait)
+        self.headless = headless
+        self.implicitlyWait = implicitlyWait
+        # self.driver = driverInit(headless=headless, implicitlyWait=implicitlyWait)
         self.register_url = "https://blendswap.com/register"
 
     def register(self, username, email, password):
@@ -34,7 +36,7 @@ class CookieMaker:
         email = (str(current_datetime.date()).replace('-', '')
                  + str(current_datetime.time()).replace(':', '').replace('.', '')
                  + '@123.com')
-        return email[4:]
+        return email
 
     def logout(self):
         self.driver.get("https://blendswap.com/logout")
@@ -43,14 +45,27 @@ class CookieMaker:
         # email是随机生成的
         username = 'downloader'
         password = '123456789'
-        self.logout()
+        # print('logout...')
+        # self.logout()
+        self.driver = driverInit(headless=self.headless, implicitlyWait=self.implicitlyWait)
         email = self.getEmail()
+        print('Email:', email)
+        print('Register...')
         self.register(username=username, email=email, password=password)
+        print('getCookie...')
         cookie = self.driver.get_cookies()[0]
         return cookie['value']
 
 
 if __name__ == '__main__':
-    cookieMaker = CookieMaker(headless=True, implicitlyWait=5)
-    for i in range(10):
-        print(cookieMaker.getCookie())
+    # 自动注册账号并生成cookie，存储到cookie.txt
+    cookieMaker = CookieMaker(headless=True, implicitlyWait=1)
+    cookieList = []
+    for i in range(1000):
+        cookie = cookieMaker.getCookie()
+        print(cookie)
+        cookieList.append(cookie)
+        with open('cookie.txt', 'a') as file:
+            file.write(cookie)
+            file.write('\n')
+

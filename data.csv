@@ -1,7 +1,7 @@
 page,id,title,cc,download_times,like,is_download,size(MB),path
-1,1588,5 Point Lighting Setup,CC-0,1744,4,no,no,no
-1,1589,Cocktail Shaker,CC-0,250,3,no,no,no
-1,1590,"Barrels, Boxes and a Pallet",CC-0,3428,11,no,no,no
+1,1588,5 Point Lighting Setup,CC-0,1744,4,yes,0.04958057403564453,data/1588.blend
+1,1589,Cocktail Shaker,CC-0,250,3,yes,0.06225395202636719,data/1589.blend
+1,1590,"Barrels, Boxes and a Pallet",CC-0,3428,11,yes,0.3188314437866211,data/1590.blend
 1,1594,Range,CC-0,419,6,no,no,no
 1,1595,Containers,CC-0,390,6,no,no,no
 1,1596,Refrigerator,CC-0,1081,7,no,no,no

@@ -8,7 +8,6 @@ import pandas as pd
 import requests
 from tqdm import tqdm
 from datetime import datetime
-from getCookie import CookieMaker
 
 download_num_per_cookie = 10
 max_file_size = 99999  # 设定会进行下载的最大文件大小单位MB
@@ -59,16 +58,19 @@ def main():
         df = pd.read_csv(csv_file_path)
     except:
         df = pd.read_csv(csv_file_path, encoding='gbk')
-    # # 从文件获取cookie
-    # with open('cookie.txt', 'r') as f:  # 从cookie.txt中获取cookie
-    #     cookie = f.read()
-
-    # 注册账号生成cookie
-    cookieMaker = CookieMaker(headless=True, implicitlyWait=5)
-    print("-------------------------------")
-    print("create cookie...")
-    cookie = cookieMaker.getCookie()
-    print(cookie)
+    # 从文件获取cookie
+    with open('cookie.txt', 'r') as f:  # 从cookie.txt中获取cookie
+        cookie = f.read()
+    cookieList = cookie.strip().split('\n')
+    cookie = cookieList.pop(0)
+    print('--------------------------------------\ncookie:', cookie)
+    # # 注册账号生成cookie
+    # from getCookie import CookieMaker
+    # cookieMaker = CookieMaker(headless=True, implicitlyWait=5)
+    # print("-------------------------------")
+    # print("create cookie...")
+    # cookie = cookieMaker.getCookie()
+    # print(cookie)
     download_count = 0
     while True:
         for line_index in range(start_line, len(df)):
@@ -89,14 +91,18 @@ def main():
                     download_count = 0
                     print("-------------------------------")
                     print("update cookie...")
-                    cookie = cookieMaker.getCookie()
-                    print(cookie)
+                    # # 注册账号并生成cookie
+                    # cookie = cookieMaker.getCookie()
+                    # 读取cookie列表取出cookie
+                    cookie = cookieList.pop(0)
+                    print('--------------------------------------\ncookie:', cookie)
         # 进行多次采集，只有全部都采集完成才会推出循环
         for line_index in range(start_line, len(df)):
             line = df.iloc[line_index]
             if line['is_download'] == 'no':
                 continue
         break
+
 
 if __name__ == '__main__':
     main()

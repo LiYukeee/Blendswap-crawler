@@ -21,10 +21,10 @@ def driverInit(path='.\\', headless=False, implicitlyWait=5):  # 浏览器初始
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument('--enable-print-browser')
     if headless:
-        chrome_options.add_argument('--headless')  # headless模式下，浏览器窗口不可见，应当可提高效率
-        chrome_options.add_argument('--no-sandbox')
-        chrome_options.add_argument('--disable-gpu')
-        chrome_options.add_argument('--disable-dev-shm-usage')
+        chrome_options.add_argument('--headless')  # headless模式下，浏览器窗口不可见，可提高效率
+        # chrome_options.add_argument('--no-sandbox')
+        # chrome_options.add_argument('--disable-gpu')
+        # chrome_options.add_argument('--disable-dev-shm-usage')
     prefs = {
         'download.default_directory': r'{}'.format(path)  # 此处填写你希望文件下载的路径,可填写your file path默认下载地址
     }
