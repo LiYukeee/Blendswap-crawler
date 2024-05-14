@@ -1,20 +1,20 @@
 # BlendSwap Downloader
 
-a crawler of blendswap
+blendswap的爬虫
 
-Automatically download models from the [blendswap](https://blendswap.com/) website.
+自动从[blendswap](https://blendswap.com/)网站下载模型
 
-Using selenium Webdriver to obtain `data.csv`，which contains information such as page, ID, title, cc, download count, likes count, etc. As of May 1, 2024, there are 25196 entries of information.
+使用selenium Webdriver获取`data.csv`，其中包含页面、ID、标题、抄送、下载次数、点赞次数等信息。截至2024年5月1日，共有25196条信息。
 
-This information was stored in `data.csv`
+此信息存储在`data.csv`中
 
 # main.py
 
-You can skip this paragraph, cause the `data.csv` of 25196 entries of information is already in the file list.
+您可以跳过这一段，因为25196条信息的`data.csv`已在文件列表中。
 
-Script for constructing `data.csv` based on selenium.
+基于selenium构建`data.csv`的脚本。
 
-After import packages, you can change: 
+导入包后，您可以更改：
 
 ```python
 start_page = 0 # Starting page for crawling
@@ -28,30 +28,31 @@ password = ''
 
 # downloader.py
 
-Read data from `data.csv` and download.
+从`data.csv`中读取数据并下载。
 
-How to get cookie?
-
-Open blendswap in your browser and log in to your account. Press F12, choose application-Cookie-https://blendswap.com, copy the `Cookie Value` of the `session` key, Paste into `cookie.txt` and save.
-
-![image-20240501145100026](README.assets/image-20240501145100026.png)
-
-After import packages, you can change: 
+导入包后，您可以更改：
 
 ```python
 max_file_size = 99999  # Maximum file size in MB for downloading
 min_file_size = 0  # Minimum file size in MB for downloading
 csv_file_path = 'data.csv'
 start_line = 0  # Starting line in the CSV file
-download_path = 'data\\'
+download_path = 'data/'
 base_url = 'https://blendswap.com/blend/{}/download'
 ```
 
-If your cookie is invalid or your account's daily download limit has been exhausted, this message will be prompted: Download quota used up... or cookie invalid...
+如果您的cookie无效或您的帐户的每日下载限制已用完，将提示此消息：Download quota used up... or cookie invalid...
 
-Creating an account in Blendswap does not require verification. So ou can easily create accounts. Or you can subscribe it, then you can download without restrictions.
+在Blendswap中创建帐户不需要验证。因此，您可以轻松创建帐户，脚本已经包含了自动注册的流程，因此你可以直接使用它，但是创建账号的过程需要一些时间。或者你可以订阅它，然后你可以无限制地下载。
 
-![image-20240501141520638](README.assets/image-20240501141520638.png)
+![image-20240514155530979](README.assets/image-20240514155530979.png)
 
-running...
+正在运行...
 
+# Use you own cookie
+
+如何获取cookie？
+
+在浏览器中打开blendswap并登录到您的帐户。按F12，选择应用程序Cookie-https://blendswap.com，复制“session”键的“Cookie Value”，粘贴到“Cookie.txt”中并保存。如果你要使用自定的cookie需要对`downloader.py`进行一些改动，或者直接退回上一个版本。
+
+![image-20240501145100026](README.assets/image-20240501145100026.png)

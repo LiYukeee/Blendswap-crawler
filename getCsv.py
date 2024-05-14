@@ -13,8 +13,8 @@ import pandas as pd
 start_page = 0  # 开始采集的页码
 end_page = 1400  # 采集结束的页码
 wait_time_after_load_page = 3  # 进入一个新的页面之后的等待时间
-username = ''
-password = ''
+username = '396839479@qq.com'
+password = '20020528lyk'
 
 
 def perItem(driver, xp, page):

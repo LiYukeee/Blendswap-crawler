@@ -8,24 +8,24 @@ import pandas as pd
 import requests
 from tqdm import tqdm
 from datetime import datetime
+from getCookie import CookieMaker
 
+download_num_per_cookie = 10
 max_file_size = 99999  # 设定会进行下载的最大文件大小单位MB
 min_file_size = 0  # 设定会进行下载的最大文件大小单位MB
 csv_file_path = 'data.csv'
 start_line = 0  # 从csv文件的第几行开始
-download_path = 'data\\'
+download_path = 'data/'
 base_url = 'https://blendswap.com/blend/{}/download'
 
 
-def download(id):
+def download(id, cookie):
     """
     下载，通过id
     :param id:
     :return:
     """
     url = base_url.format(id)
-    with open('cookie.txt', 'r') as f:  # 从cookie.txt中获取cookie
-        cookie = f.read()
     cookie = {
         'session': cookie
     }
@@ -59,16 +59,44 @@ def main():
         df = pd.read_csv(csv_file_path)
     except:
         df = pd.read_csv(csv_file_path, encoding='gbk')
-    for line_index in range(start_line, len(df)):
-        line = df.iloc[line_index]
-        if line['is_download'] == 'no':  # 如果没有被下载
-            id = line['id']
-            data = download(id)
-            df.loc[line_index, ['is_download', 'size(MB)', 'path']] = data
-            df.to_csv(csv_file_path, index=False)
-            current_datetime = datetime.now()
-            print(current_datetime.date(), current_datetime.time(), 'id:', line['id'], data)
+    # # 从文件获取cookie
+    # with open('cookie.txt', 'r') as f:  # 从cookie.txt中获取cookie
+    #     cookie = f.read()
 
+    # 注册账号生成cookie
+    cookieMaker = CookieMaker(headless=True, implicitlyWait=5)
+    print("-------------------------------")
+    print("create cookie...")
+    cookie = cookieMaker.getCookie()
+    print(cookie)
+    download_count = 0
+    while True:
+        for line_index in range(start_line, len(df)):
+            line = df.iloc[line_index]
+            if line['is_download'] == 'no':  # 如果没有被下载
+                id = line['id']
+                try:
+                    data = download(id, cookie)  # 可能会出错，未知的网络原因，为了不妨碍程序继续运行用try
+                except:
+                    data = ['no', 'no', 'no']
+                df.loc[line_index, ['is_download', 'size(MB)', 'path']] = data
+                df.to_csv(csv_file_path, index=False)
+                current_datetime = datetime.now()
+                print('time:', current_datetime.date(), current_datetime.time())
+                print('id:', line['id'], data)
+                download_count += 1
+                if download_count >= download_num_per_cookie:  # 下载n次之后需要更换cookie
+                    download_count = 0
+                    print("-------------------------------")
+                    print("update cookie...")
+                    cookie = cookieMaker.getCookie()
+                    print(cookie)
+        # 进行多次采集，只有全部都采集完成才会推出循环
+        for line_index in range(start_line, len(df)):
+            line = df.iloc[line_index]
+            if line['is_download'] == 'no':
+                continue
+        break
 
 if __name__ == '__main__':
     main()
