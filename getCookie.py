@@ -62,10 +62,12 @@ if __name__ == '__main__':
     cookieMaker = CookieMaker(headless=True, implicitlyWait=1)
     cookieList = []
     for i in range(1000):
-        cookie = cookieMaker.getCookie()
-        print(cookie)
-        cookieList.append(cookie)
-        with open('cookie.txt', 'a') as file:
-            file.write(cookie)
-            file.write('\n')
-
+        try:
+            cookie = cookieMaker.getCookie()
+            print(cookie)
+            cookieList.append(cookie)
+            with open('cookie.txt', 'a') as file:
+                file.write(cookie)
+                file.write('\n')
+        except:
+            a = 1
