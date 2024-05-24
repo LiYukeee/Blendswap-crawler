@@ -10,7 +10,7 @@ blendswap的爬虫。
 
 # downloader.py
 
-从`data.csv`中读取数据并下载。
+从`data.csv`中读取数据并下载`xxx.blend`。
 
 导入包后，您可以更改：
 
@@ -23,7 +23,7 @@ download_path = 'data/'
 base_url = 'https://blendswap.com/blend/{}/download'
 ```
 
-首先运行`getCookie.py`，生成一定数量的cookie，生成`cookie.txt`。
+首先运行`getCookie.py`，注册账号、生成一定数量的cookie，并记录在`cookie.txt`。
 
 ![image-20240514184213742](README.assets/image-20240514184213742.png)
 
@@ -32,6 +32,16 @@ base_url = 'https://blendswap.com/blend/{}/download'
 如果您的cookie无效或您的帐户的每日下载限制已用完，将提示此消息：Download quota used up... or cookie invalid...
 
 在Blendswap中创建帐户不需要验证。因此，您可以轻松创建帐户，脚本已经包含了自动注册的流程，因此你可以直接使用它，但是创建账号的过程需要一些时间。或者你可以订阅它，然后你可以无限制地下载。
+
+# Blend->NerfDataset
+
+Blender首先要安装插件：[BlenderNeRF](https://github.com/maximeraafat/BlenderNeRF)
+
+运行`blend2NeRFdataset.py`根据`data.csv`，自动调用blender并启用上述插件进行渲染，进行`.blend`文件到Nerfdataset的转化。
+
+`blend-script`是blender执行的脚本，可以在里面设置调整一些参数，如渲染引擎，尺寸，相机半径等信息。
+
+我现在还没有解决相机半径的问题，**如何利用blender中一些物体的信息，计算合适的相机半径？**这对于生成符合要求的nerf数据集非常关键。
 
 # getCSV.py
 
