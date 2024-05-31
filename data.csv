@@ -2,7 +2,6 @@ page,id,title,cc,download_times,like,is_download,size(MB),path,nerf_data_path
 1,1588,5 Point Lighting Setup,CC-0,1744,4,yes,0.04958057403564453,data/1588.blend,no
 1,1589,Cocktail Shaker,CC-0,250,3,yes,0.06225395202636719,data/1589.blend,no
 1,1590,"Barrels, Boxes and a Pallet",CC-0,3428,11,yes,0.3188314437866211,data/1590.blend,no
-1384,30855,Music Albums,CC-0,106,9,yes,1.852984913246565,data/30855.blend,no
 1,1595,Containers,CC-0,390,6,no,no,no,no
 1,1596,Refrigerator,CC-0,1081,7,no,no,no,no
 1,1600,head doodle,CC-0,743,4,no,no,no,no
