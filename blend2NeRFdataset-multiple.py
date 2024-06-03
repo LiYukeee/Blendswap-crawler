@@ -4,17 +4,16 @@ import pandas as pd
 import zipfile
 import shutil
 import os
-import signal
-import shlex
 import threading
+# import signal
 
 
 data_fold = 'data'
 nerf_data_fold = 'nerf-data'
 csv_path = 'data.csv'
-max_render_time = 3000  # 单个文件的最大渲染时间
 render_img_count = 300  # 设定的渲染图片数量
-num_threads = 8  # 最大线程数量
+max_render_time = render_img_count * 8  # 单个文件的最大渲染时间
+num_threads = 6  # 最大线程数量
 lock = threading.Lock()  # 定义一个共享锁
 
 # 读取文件
@@ -23,47 +22,6 @@ try:
 except:
     df = pd.read_csv(csv_path, encoding='gbk')
 
-
-def blend2nerfdata(blend_path, max_render_time=max_render_time):
-    """
-    .blend -> nerf dataset
-    """
-    # 确保blender脚本路径正确
-    blender_script_path = "/home/liyuke/script/blend-script.py"
-    if not os.path.isfile(blender_script_path):
-        print(f"Error: The script file {blender_script_path} does not exist.")
-        return False
-    # 构建blender命令
-    command = "blender -b {} --python {}".format(blend_path, blender_script_path)
-    print('-' * 100, '\ncommand: ')
-    print(command)
-    args = shlex.split(command)
-    # 启动监控Blender进程的子进程
-    process = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-    # 定义一个函数来发送SIGTERM信号给Blender进程
-    def terminate_process(process):
-        os.kill(process.pid, signal.SIGTERM)
-    # 使用一个循环监控进程和时间
-    try:
-        # 等待进程结束或超时
-        process.wait(timeout=max_render_time)
-    except subprocess.TimeoutExpired:
-        print('-' * 100, '\nerror message: ')
-        print("Command timed out after {} seconds".format(max_render_time))
-        terminate_process(process)  # 超时后终止Blender进程
-        return False
-    else:
-        # 获取标准输出和错误输出
-        stdout, stderr = process.communicate()
-        if process.returncode == 0:
-            print('-' * 100, '\nerror message: ')
-            print("Blender process exited successfully.")
-            return True
-        else:
-            print('-' * 100, '\nerror message: ')
-            print(stdout)
-            print(stderr)
-            return False
 
 def blend2nerfdata(blend_path):
     """
@@ -149,6 +107,8 @@ def work():
             df.to_csv(csv_path, index=False)
         print('-' * 100)
         print('error', line.id)
+    return
+
 
 def main():
     threads = []
@@ -156,6 +116,7 @@ def main():
         thread = threading.Thread(target=work)
         thread.start()
         threads.append(thread)
+
 
 if __name__ == '__main__':
     main()

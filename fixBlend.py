@@ -46,8 +46,8 @@ def move(src_file, dst_file):
 
 
 def main():
-    start_id = 1900
-    end_id = 25000
+    start_id = 1500
+    end_id = 40000
     zip_file_path = os.path.join(data_path, "{}.blend")  # ZIP文件的路径
     for id in range(start_id, end_id + 1):
         try:
