@@ -127,8 +127,18 @@ def convert():
     """
     # 确保在对象模式
     object_mode()
-    # 选择所有对象
+    # 先选中一个视图可见的MESH物体，再选择所有对象
+    scene = bpy.context.scene
+    for obj in scene.objects:
+        # 检查物体是否为Mesh类型，并且在视图中可见
+        if obj.type == 'MESH' and obj.visible_get():
+            # 选中物体
+            obj.select_set(True)
+            scene.view_layers[0].objects.active = obj
+            break
+    bpy.context.view_layer.update()
     bpy.ops.object.select_all(action='SELECT')
+    bpy.context.view_layer.update()
     # 创建一个列表，用于存储要删除的物体
     objects_to_remove = [obj for obj in bpy.data.objects if not obj.select_get()]
     # 确认有对象被选中
